@@ -1,18 +1,23 @@
 import React,{useState} from 'react'
 
 const BasicForm = () => {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [phone, setPhone] = useState("");
+    const [date, setDate] = useState("");
     const [allEntry, setAllEntry] = useState([]);
+    
     const submitForm=(e)=>{
         e.preventDefault();
-        if(email&&password)
+        if(name&&email&&date)
         {
-        const newEntry = {id: new Date().getTime().toString(),email, password };
+        const newEntry = {id: new Date().getTime().toString(),name,email, phone,date };
         setAllEntry([...allEntry, newEntry]);
         console.log(allEntry);
+        setName("");
         setEmail("");
-        setPassword("");
+        setPhone("");
+        setDate("");
         }
         else
         {
@@ -24,13 +29,22 @@ const BasicForm = () => {
     <>
     <form action='' onSubmit={submitForm}>
         <div>
+            <label htmlFor='text'>Name</label>
+            <input type="text" name="name" id="name" autoComplete="off" value={name} onChange={(e)=>setName(e.target.value)}
+             />
+        </div>
+        <div>
             <label htmlFor='email'>Email</label>
             <input type="text" name="email" id="email" autoComplete="off" value={email} onChange={(e)=>setEmail(e.target.value)}
              />
         </div>
         <div>
-            <label htmlFor='password'>Password</label>
-            <input type="password" name="password" id="password" value={password} onChange={(e)=>setPassword(e.target.value)} />
+            <label htmlFor='phone'>phone</label>
+            <input type="number" name="phone" id="phone" value={phone} onChange={(e)=>setPhone(e.target.value)} />
+        </div>
+        <div>
+            <label htmlFor='date'>Date</label>
+            <input type="date" name="date" id="date" value={date} onChange={(e)=>setDate(e.target.value)} />
         </div>
 
         <button type="submit">Submit</button>
@@ -39,11 +53,13 @@ const BasicForm = () => {
     <div>
         {
             allEntry.map((curElem)=>{
-                const {id,email,password}=curElem;
+                const {id,name,email,phone,date}=curElem;
                 return (
                     <div className='showDataStyle' key={curElem.id}>
+                        <p>{name}</p>
                         <p>{email}</p>
-                        <p>{password}</p>
+                        <p>{phone}</p>
+                        <p>{date}</p>
                         </div>
                 )
             })
