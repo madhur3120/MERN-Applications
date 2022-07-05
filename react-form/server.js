@@ -7,8 +7,8 @@ app.use(cors());
 app.use(express.json());
 
 //connect to mongoose
-const DB ='mongodb+srv://madhur:Madhur@cluster0.92gx1q9.mongodb.net/testDB?retryWrites=true&w=majority'
-// const DB ='mongodb+srv://madhur:Madhur@cluster0.92gx1q9.mongodb.net/testDB?appName=mongosh+1.5.0'
+const DB ='mongodb+srv://madhur:abcdef@cluster0.92gx1q9.mongodb.net/testDB?retryWrites=true&w=majority'
+// const DB ='mongodb+srv://madhur:abcdef@cluster0.92gx1q9.mongodb.net/testDB?appName=mongosh+1.5.0'
 mongoose.connect(DB);
 
 app.use("/",require("./routes/testRoute"));
