@@ -1,70 +1,61 @@
 import React,{useState} from 'react'
-
+import axios from "axios";
 const BasicForm = () => {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [date, setDate] = useState("");
-    const [allEntry, setAllEntry] = useState([]);
+
+    const [input,setInput]=useState({
+        name:'',
+        email:'',
+        phone:'',
+        date:''
+    })
     
-    const submitForm=(e)=>{
-        e.preventDefault();
-        if(name&&email&&date)
-        {
-        const newEntry = {id: new Date().getTime().toString(),name,email, phone,date };
-        setAllEntry([...allEntry, newEntry]);
-        console.log(allEntry);
-        setName("");
-        setEmail("");
-        setPhone("");
-        setDate("");
+    function handleChange(event){
+        const {name,value}=event.target;
+        setInput(prevInput => {
+            return {
+                ...prevInput,
+                [name]:value
+            }
+        })
+    }
+
+    function handleClick(event){
+        event.preventDefault();
+        console.log(input);
+        const newTest={
+            name:input.name,
+            email:input.email,
+            phone:input.phone,
+            date:input.date
         }
-        else
-        {
-            alert("please fill the data");
-        }
-        
+        axios.post('http://localhost:3001/create',newTest)
     }
   return (
     <>
-    <form action='' onSubmit={submitForm}>
+    <form >
         <div>
             <label htmlFor='text'>Name</label>
-            <input type="text" name="name" id="name" autoComplete="off" value={name} onChange={(e)=>setName(e.target.value)}
+            <input type="text" name="name" id="name" autoComplete="off" value={input.name} onChange={handleChange}
              />
         </div>
         <div>
             <label htmlFor='email'>Email</label>
-            <input type="text" name="email" id="email" autoComplete="off" value={email} onChange={(e)=>setEmail(e.target.value)}
+            <input type="email" name="email" autoComplete="off" value={input.email} onChange={handleChange}
              />
         </div>
         <div>
             <label htmlFor='phone'>phone</label>
-            <input type="number" name="phone" id="phone" value={phone} onChange={(e)=>setPhone(e.target.value)} />
+            <input type="number" name="phone" value={input.phone}   onChange={handleChange} />
         </div>
         <div>
             <label htmlFor='date'>Date</label>
-            <input type="date" name="date" id="date" value={date} onChange={(e)=>setDate(e.target.value)} />
+            <input type="date" value={input.date} name="date"   onChange={handleChange} />
         </div>
 
-        <button type="submit">Submit</button>
+        <button  onClick={handleClick}>Submit</button>
     </form>
 
-    <div>
-        {
-            allEntry.map((curElem)=>{
-                const {id,name,email,phone,date}=curElem;
-                return (
-                    <div className='showDataStyle' key={curElem.id}>
-                        <p>{name}</p>
-                        <p>{email}</p>
-                        <p>{phone}</p>
-                        <p>{date}</p>
-                        </div>
-                )
-            })
-        }
-    </div>
+    
     </>
   )
 }
